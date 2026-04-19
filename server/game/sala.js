@@ -7,7 +7,7 @@ const Bot = require("./bot");
 const EventEmitter = require("events");
 
 class Sala extends EventEmitter {
-    constructor(id, config,privacidad) {
+    constructor(id, config, privacidad, botNames) {
         super(); // Por los eventos
         this.id = id
         this.estado = constantes?.ESTADOS?.LOBBY || "LOBBY"
@@ -33,6 +33,21 @@ class Sala extends EventEmitter {
         this.preferenciaBaraja48 = config?.baraja48 || false;
         this.usarMazoGrande = false;
 
+        // BOTS
+        this.botNames = [...botNames];
+
+        // TIMER
+        this.timer = null;
+        this.timerAmount = 15000;
+
+    }
+
+    shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     }
 
     addJugador(socketId, nombre){
@@ -42,10 +57,9 @@ class Sala extends EventEmitter {
     }
 
     iniciar_partida(){
-        const botNames = ["Bacon", "Huevo", "Patatas"];
 
         // Copia y baraja
-        const nombres = [...botNames].sort(() => Math.random() - 0.5);
+        const nombres = this.shuffle([...this.botNames]);
 
         let i = 0;
         while (this.jugadores.length < this.maxJugadores) {
@@ -329,6 +343,17 @@ class Sala extends EventEmitter {
         });
 
         this.repartirCartas();
+    }
+
+    iniciarTimer() {
+        this.timer = setTimeout(() => {
+            
+        }, this.timerAmount); 
+    }
+
+    detenerTimer() {
+        clearTimeout(this.timer);
+        timer = null;
     }
 }
 

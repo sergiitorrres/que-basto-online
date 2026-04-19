@@ -15,7 +15,7 @@ const Mesa = ({playerName, socket, numMaxJugadores}) => {
   const [estado,setEstado] = useState(ESTADOS.LOBBY);
   const [turno,setTurno] = useState ();
   const [cartasMesa, setCartaMesa] = useState([]);
-  const [miRol, setMiRol] = useState();
+  const [miRol, setMiRol] = useState(ROLES.NEUTRO);
   const [misPuntos, setMisPuntos] = useState(0);
   const [seleccionadas, setSeleccionadas] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
@@ -31,7 +31,7 @@ const Mesa = ({playerName, socket, numMaxJugadores}) => {
   const [rankingFinal, setRankingFinal] = useState([]);
   const [mostrarRankingFinal, setMostrarRankingFinal] = useState(false);
 
-
+  const ultimoEvento = useRef(-1);
   const limpiandoMesaRef = useRef(false);
   const colaJugadasRef = useRef([]);   // Cola de jugadas pendientes
   const procesandoRef = useRef(false);
@@ -140,13 +140,13 @@ const Mesa = ({playerName, socket, numMaxJugadores}) => {
 
       setMiRol(miRolNuevo);
 
-      await limpiarMesaAsync();
+      await limpiarMesaAsync(0, true);
       procesarCola();
       resetHaPasado();
     }) 
     
     socket.on("mesa_limpia", async (data) => {
-      await limpiarMesaAsync();
+      await limpiarMesaAsync(data.idEvento);
       procesarCola();
       resetHaPasado();
     });
@@ -323,7 +323,10 @@ const Mesa = ({playerName, socket, numMaxJugadores}) => {
       !limpiandoMesaRef.current
     ) {
       const siguiente = colaJugadasRef.current.shift();
-      await aplicarJugadaAsync(siguiente);
+      if(siguiente.idEvento > ultimoEvento.current) {
+        ultimoEvento.current = siguiente.idEvento;
+        await aplicarJugadaAsync(siguiente);
+      }
     }
 
     procesandoRef.current = false;
@@ -359,16 +362,23 @@ const Mesa = ({playerName, socket, numMaxJugadores}) => {
     });
   };
 
-  const limpiarMesaAsync = () => {
+  const limpiarMesaAsync = (idEvento, bool) => {
     return new Promise((resolve) => {
       limpiandoMesaRef.current = true;
 
       setHacerBarrido(true);
 
       setTimeout(() => {
-        setCartaMesa([]);
-        setUltimoJugadorId(null);
-        setUltimaJugada([]);
+        if(idEvento > ultimoEvento.current) {
+          setCartaMesa([]);
+          setUltimoJugadorId(null);
+          setUltimaJugada([]);
+        } else if (bool) {
+          setCartaMesa([]);
+          setUltimoJugadorId(null);
+          setUltimaJugada([]);
+          colaJugadasRef.current = [];
+        }
 
         limpiandoMesaRef.current = false;
         resolve();
@@ -462,7 +472,7 @@ const Mesa = ({playerName, socket, numMaxJugadores}) => {
         <span className={styles.nombre_rival}>{rival.nombre}</span>
         
         {/* AVATAR PEQUEÑO (FIJADO POR CSS) */}
-        <img alt="avatar" className={styles.avatar} src="/assets/images/avatar-de-usuario.png" />
+        <img alt="avatar" className={styles.avatar} src={`/assets/images/${rival.rol}_rol.png`} />
         
         {/* BARRA DE TIEMPO RIVAL */}
         <div className={styles['timer-container']}>
@@ -605,7 +615,7 @@ const Mesa = ({playerName, socket, numMaxJugadores}) => {
 
          <div className={styles.mi_perfil}>
             <img alt="mi avatar" src="/assets/images/avatar-de-usuario.png" />
-            <img alt="icono rol" src="/assets/images/culo_rol.png" />
+            <img alt="icono rol" src={`/assets/images/${miRol}_rol.png`} />
             <span>{playerName} ({miRol || 'Sin Rol'}) — ({misPuntos}) pts</span>
          </div>
          <div className={styles['timer-container']}>

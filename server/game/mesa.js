@@ -5,6 +5,11 @@ class Mesa {
         this.cantidad = -1 // Cuantas cartas juntas
         this.fuerzaActual = -1
         this.jugadoresTerminado = 0
+        this.idEventos = 0
+    }
+
+    updateIdEventos() {
+        this.idEventos++;
     }
 
     jugadorTerminado() { return ++this.jugadoresTerminado; }
