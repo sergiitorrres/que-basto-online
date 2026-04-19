@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import styles from './crear_privada.module.css';
+import styles from './CrearPrivada.module.css';
 
 const CrearPrivada = ({ socket, playerName, setMaxJugadores}) => {
   const navigate = useNavigate();

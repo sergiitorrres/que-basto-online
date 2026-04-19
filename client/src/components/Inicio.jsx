@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './inicio.module.css';
+import styles from './Inicio.module.css';
 
 const Inicio = ({ playerName, setPlayerName }) => {
   const navigate = useNavigate();

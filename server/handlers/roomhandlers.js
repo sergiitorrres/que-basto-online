@@ -3,7 +3,6 @@
 const { rooms } = require("../store");
 const Sala = require("../game/sala");
 const { ESTADOS } = require("../game/constantes");
-const { func } = require("prop-types");
 
 const obtenerSalasPublicas = () => {
     

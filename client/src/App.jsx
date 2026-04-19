@@ -3,12 +3,11 @@ import React, {useState} from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import io from 'socket.io-client';
-import Inicio from './components/inicio1'; 
-import CrearPrivada from './components/crear_privada';
-import Lobby1 from './components/lobby1';
-import Test from './components/test';
-import Mesa from './components/mesa1';
-import PartidaPublica from './components/partida_publica';
+import Inicio from './components/Inicio'; 
+import CrearPrivada from './components/CrearPrivada';
+import Lobby from './components/Lobby';
+import Mesa from './components/Mesa';
+import PartidaPublica from './components/PartidaPublica';
 
 // --- PARA EJECUTAR EN LOCAL ---
 // --- PARA EJECUTAR EN LOCAL ---
@@ -39,8 +38,7 @@ function App() {
     <Routes>
       <Route path= "/" element = {<Inicio setPlayerName={setPlayerName} playerName={playerName} />}   />
       <Route path = "/crear_privada" element = {<CrearPrivada socket={socket} playerName={playerName} setMaxJugadores={setMaxJugadores} />}/>
-      <Route path = "/test" element = {<Test />}/>
-      <Route path = "/lobby" element = {<Lobby1 />}/>
+      <Route path = "/lobby" element = {<Lobby />}/>
   
       <Route path="/mesa1/:id" element={<Mesa socket={socket} playerName={playerName} numMaxJugadores={numMaxJugadores} />} />
       <Route path = "/partida_publica" element = {<PartidaPublica socket={socket} playerName={playerName} setMaxJugadores={setMaxJugadores} />}/>

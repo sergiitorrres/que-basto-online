@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import styles from './mesa.module.css';
+import styles from './Mesa.module.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ESTADOS, ROLES } from '../constantes';
