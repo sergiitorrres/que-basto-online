@@ -66,4 +66,3 @@ El juego estará disponible en `http://localhost:5173`.
 El objetivo es quedarse sin cartas. Dependiendo del orden de finalización, los jugadores obtienen roles para la siguiente ronda (Presidente, Vicepresidente, Neutro, Viceculo, Culo), lo que afecta al intercambio de cartas inicial.
 
 ---
-Desarrollado con ❤️ por [Sergi Torres](https://github.com/sergiitorrres)
