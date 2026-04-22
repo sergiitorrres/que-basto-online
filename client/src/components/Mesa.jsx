@@ -611,6 +611,7 @@ const Mesa = ({playerName, socket, numMaxJugadores}) => {
                 Dar cartas
               </button>
           )}
+          
 
 
          <div className={styles.mi_perfil}>
