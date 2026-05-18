@@ -1,6 +1,6 @@
 // src/components/Inicio.jsx
 import React from 'react';
-import styles from './lobby.module.css';
+import styles from './Lobby.module.css';
 
 const Lobby1 = () => {
   return (
